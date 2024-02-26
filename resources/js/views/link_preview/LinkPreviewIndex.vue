@@ -370,7 +370,7 @@ export default {
                 // send data to Sockot.IO Server
                 // this.$socket.emit("sendData", { action: "link-preview-create" });
 
-                this.showAlert();
+                this.showAlert('success', data.success);
                 this.close();
 
                 //push recently added data from database
