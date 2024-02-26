@@ -15,12 +15,12 @@ Vue.use(Vuetify);
 Vue.use(VuetifyMask);
 Vue.use(Vuelidate);
 Vue.use(VueSweetalert2);
-Vue.use(IdleVue, {
-  eventEmitter: new Vue(),
-  store,
-  idleTime: 1800000, // 30 mins
-  startAtIdle: false
-});
+// Vue.use(IdleVue, {
+//   eventEmitter: new Vue(),
+//   store,
+//   idleTime: 1800000, // 30 mins
+//   startAtIdle: false
+// });
 
 const app = new Vue({
     vuetify: Vuetify,

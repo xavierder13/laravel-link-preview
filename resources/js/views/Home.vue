@@ -67,7 +67,7 @@
             <v-img src="/img/default-profile.png"></v-img>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>Laravel Socket.IO</v-list-item-title>
+            <v-list-item-title>Laravel Link Preview</v-list-item-title>
             <v-list-item-subtitle>{{ user.name }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -84,7 +84,7 @@
         </v-list-item>
         <v-list-group
           no-action
-          v-if="hasPermission('user-list') || hasPermission('user-create')"
+          v-if="hasAnyPermission('user-list', 'user-create')"
         >
           <!-- List Group Icon-->
           <v-icon slot="prependIcon">mdi-account-arrow-right-outline</v-icon>
@@ -108,12 +108,14 @@
         </v-list-group>
         <v-list-group
           no-action
-          v-if="
-            hasPermission('role-list') ||
-            hasPermission('role-create') ||
-            hasPermission('permission-list') ||
-            hasPermission('permission-create')
-          "
+          v-if="hasAnyPermission(
+            'role-list', 
+            'role-create', 
+            'permission-list', 
+            'permission-create', 
+            'link-preview-list', 
+            'link-preview-create'
+          )"
         >
           <!-- List Group Icon-->
           <v-icon slot="prependIcon">mdi-cog</v-icon>
@@ -136,6 +138,15 @@
           >
             <v-list-item-content>
               <v-list-item-title>Permission</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item
+            link
+            to="/link_preview/index"
+            v-if="hasPermission('link-preview-list')"
+          >
+            <v-list-item-content>
+              <v-list-item-title>Link Preview Set Up</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
@@ -272,11 +283,11 @@ export default {
   },
 
   computed: {
-    isIdle() {
-			return this.$store.state.idleVue.isIdle;
-		},
+    // isIdle() {
+		// 	return this.$store.state.idleVue.isIdle;
+		// },
     ...mapState("auth", ["user"]),
-    ...mapGetters("userRolesPermissions", ["hasRole", "hasPermission"]),
+    ...mapGetters("userRolesPermissions", ["hasRole", "hasAnyRole", "hasPermission", "hasAnyPermission"]),
   },
   watch: {
     isIdle(){

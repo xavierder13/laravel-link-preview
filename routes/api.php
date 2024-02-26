@@ -86,44 +86,6 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:api', 'user.maintenance
 });
 
 //Permissions
-Route::group(['prefix' => 'sap', 'middleware' => ['auth:api']], function(){
-
-    Route::get('/ar_invoice', [
-        'uses' => 'API\SAPModuleController@get_ar_invoice_fields',
-        'as' => 'get.ar.invoice.fields',
-    ]);
-
-    Route::group(['prefix' => 'udf'], function(){
-        Route::get('/index', [
-            'uses' => 'API\SAPUDFController@index',
-            'as' => 'sap.udf.index',
-        ]);
-        Route::get('/create', [
-            'uses' => 'API\SAPUDFController@create',
-            'as' => 'sap.udf.create',
-        ]);
-        Route::post('/store', [
-            'uses' => 'API\SAPUDFController@store',
-            'as' => 'sap.udf.store',
-        ]);
-        Route::post('/edit', [
-            'uses' => 'API\SAPUDFController@edit',
-            'as' => 'sap.udf.edit',
-        ]);
-        Route::post('/update/{id}', [
-            'uses' => 'API\SAPUDFController@update',
-            'as' => 'sap.udf.update',
-        ]);
-        Route::post('/delete', [
-            'uses' => 'API\SAPUDFController@delete',
-            'as' => 'sap.udf.delete',
-        ]);
-    });
-    
-
-});
-
-//Permissions
 Route::group(['prefix' => 'permission', 'middleware' => ['auth:api', 'permission.maintenance']], function(){
     Route::get('/index', [
         'uses' => 'API\PermissionController@index',
@@ -180,6 +142,41 @@ Route::group(['prefix' => 'role', 'middleware' => ['auth:api', 'role.maintenance
     ]);
 
 });
+
+//Link Previews
+Route::group(['prefix' => 'link_preview', 'middleware' => ['auth:api', 'link_preview.maintenance']], function(){
+    $controller = 'API\LinkPreviewController';
+    Route::get('/index', [
+        'uses' => $controller.'@index',
+        'as' => 'link_preview.index',
+    ]);
+    Route::get('/create', [
+        'uses' => $controller.'@create',
+        'as' => 'link_preview.create',
+    ]);
+    Route::post('/store', [
+        'uses' => $controller.'@store',
+        'as' => 'link_preview.store',
+    ]);
+    Route::post('/edit', [
+        'uses' => $controller.'@edit',
+        'as' => 'link_preview.edit',
+    ]);
+    Route::post('/update/{id}', [
+        'uses' => $controller.'@update',
+        'as' => 'link_preview.update',
+    ]);
+    Route::post('/delete', [
+        'uses' => $controller.'@delete',
+        'as' => 'link_preview.delete',
+    ]);
+
+});
+
+Route::get('/link_preview', [
+    'uses' => 'API\LinkPreviewController@getLinkPreview',
+    'as' => 'get_link_preview',
+]);
 
 //Activity Logs
 Route::group(['prefix' => 'activity_logs', 'middleware' => ['auth:api', 'activity.logs']], function(){

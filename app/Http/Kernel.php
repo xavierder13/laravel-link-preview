@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'user.maintenance' => \App\Http\Middleware\UserMaintenance::class,
         'permission.maintenance' => \App\Http\Middleware\PermissionMaintenance::class,
         'role.maintenance' => \App\Http\Middleware\RoleMaintenance::class,
+        'link_preview.maintenance' => \App\Http\Middleware\LinkPreviewMaintenance::class,
         'activity.logs' => \App\Http\Middleware\ActivityLogs::class,
     ];
 }

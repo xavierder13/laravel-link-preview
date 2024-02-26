@@ -10,6 +10,8 @@ import Permission from './views/permission/PermissionIndex.vue';
 import RoleIndex from './views/role/RoleIndex.vue';
 import RoleCreate from './views/role/RoleCreate.vue';
 import RoleView from './views/role/RoleView.vue';
+import LinkPreviewIndex from './views/link_preview/LinkPreviewIndex.vue';
+import LinkPreview from './views/LinkPreview.vue';
 import ActivityLogs from './views/activity_logs/ActivityLogs.vue';
 import PageNotFound from './404/PageNotFound.vue';
 import Unauthorize from './401/Unauthorize.vue';
@@ -63,6 +65,11 @@ const routes = [
         component: RoleView
       },
       {
+        path: '/link_preview/index',
+        name: 'link_preview.index',
+        component: LinkPreviewIndex
+      },
+      {
         path: '/activity_logs',
         name: 'activity_logs',
         component: ActivityLogs
@@ -79,9 +86,13 @@ const routes = [
         next();
       }
       else {
-        next('/login');
+        next('/link_preview');
       }
     }
+  },
+  {
+    path: '/link_preview',
+    component: LinkPreview,
   },
   {
     path: '/login',
