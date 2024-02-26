@@ -26,6 +26,10 @@ class PermissionSeeder extends Seeder
             'role-create',
             'role-edit',
             'role-delete',
+            'link-preview-list',
+            'link-preview-create',
+            'link-preview-edit',
+            'link-preview-delete',
             'activity-logs',
             
          ];
