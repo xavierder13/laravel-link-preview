@@ -140,6 +140,29 @@
             </template>
           </v-data-table>
         </v-card>
+        <!-- loader-dialog -->
+        <v-dialog
+          v-model="save_loading"
+          hide-overlay
+          persistent
+          width="300"
+        >
+          <v-card
+            color="primary"
+            dark
+          >
+            <v-card-text>
+              <p class="text-center pt-2">
+                Saving Record...
+              </p>
+              <v-progress-linear
+                indeterminate
+                color="white"
+                class="mb-0"
+              ></v-progress-linear>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
       </v-main>
     </div>
   </div>
@@ -203,6 +226,7 @@ export default {
         description: []
       },
       overlay: false,
+      save_loading: false,
     };
   },
 
@@ -312,93 +336,63 @@ export default {
 
       if (!this.$v.$error) {
         this.disabled = true;
-        this.overlay = true;
+        this.save_loading = true;
 
-        if (this.editedIndex > -1) {
-          const data = this.editedItem;
-          const link_preview_id = this.editedItem.id;
+        let url = this.editedIndex > -1 ? 'link_preview/update/' + link_preview_id : 'store';
 
-          axios.post("/api/link_preview/update/" + link_preview_id, data).then(
-            (response) => {
-              this.overlay = false;
-              let data = response.data;
+        const data = this.editedItem;
+        const link_preview_id = this.editedItem.id;
 
-              if (response.data.success) {
-                // send data to Sockot.IO Server
-                // this.$socket.emit("sendData", { action: "link-preview-edit" });
+        axios.post("/api/link_preview/" + url, data).then(
+          (response) => {
+            this.save_loading = false;
+            let data = response.data;
 
-                Object.assign(
+            if (response.data.success) {
+              // send data to Sockot.IO Server
+              // this.$socket.emit("sendData", { action: "link-preview-edit" });
+
+              // edit
+              if(this.editedIndex > -1)
+              {
+                  Object.assign(
                   this.link_previews[this.editedIndex],
                   this.editedItem
-                );
-                this.showAlert('success', data.success);
-                this.close();
-
+                );  
               }
-              else if(data.error)
+              else //insert
               {
-                this.showAlert('error', 'Error', 'Error on creating link preview. Please check the URL.');
-              }
-              else
-              {
-                let errors = data;
-                let errorNames = Object.keys(data);
-
-                errorNames.forEach(value => {
-                  this.linkPreviewError[value].push(errors[value]);
-                });
-              }
-
-              this.disabled = false;
-            },
-            (error) => {
-              this.overlay = false;
-              this.isUnauthorized(error);
-              this.disabled = false;
-            }
-          );
-        } else {
-          const data = this.editedItem;
-        
-          axios.post("/api/link_preview/store", data).then(
-            (response) => {
-              this.overlay = false;
-              this.disabled = false;
-              let data = response.data;
-
-              if (data.success) {
-                // send data to Sockot.IO Server
-                // this.$socket.emit("sendData", { action: "link-preview-create" });
-
-                this.showAlert('success', data.success);
-                this.close();
-
                 //push recently added data from database
                 this.link_previews.push(data.link_preview);
               }
-              else if(data.error)
-              {
-                this.showAlert('error', 'Error', 'Error on creating link preview. Please check the URL.');
-              }
-              else
-              { 
-                let errors = data;
-                let errorNames = Object.keys(data);
 
-                errorNames.forEach(value => {
-                  this.linkPreviewError[value].push(errors[value]);
-                });
-                
-              }
-              
-            },
-            (error) => {
-              this.overlay = false;
-              this.isUnauthorized(error);
-              this.disabled = false;
+              this.showAlert('success', data.success);
+              this.close();
+
             }
-          );
-        }
+            else if(data.error)
+            {
+              this.showAlert('error', 'Error', 'Error on creating link preview. Please check the URL.');
+            }
+            else
+            {
+              let errors = data;
+              let errorNames = Object.keys(data);
+
+              errorNames.forEach(value => {
+                this.linkPreviewError[value].push(errors[value]);
+              });
+            }
+
+            this.disabled = false;
+          },
+          (error) => {
+            this.overlay = false;
+            this.isUnauthorized(error);
+            this.disabled = false;
+          }
+        );
+ 
       }
     },
 
