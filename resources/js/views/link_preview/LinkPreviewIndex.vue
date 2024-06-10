@@ -341,7 +341,7 @@ export default {
         const data = this.editedItem;
         const link_preview_id = this.editedItem.id;
 
-        let url = this.editedIndex > -1 ? 'link_preview/update/' + link_preview_id : 'store';
+        let url = this.editedIndex > -1 ? 'update/' + link_preview_id : 'store';
 
         axios.post("/api/link_preview/" + url, data).then(
           (response) => {
