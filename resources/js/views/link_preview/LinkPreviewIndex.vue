@@ -338,10 +338,10 @@ export default {
         this.disabled = true;
         this.save_loading = true;
 
-        let url = this.editedIndex > -1 ? 'link_preview/update/' + link_preview_id : 'store';
-
         const data = this.editedItem;
         const link_preview_id = this.editedItem.id;
+
+        let url = this.editedIndex > -1 ? 'link_preview/update/' + link_preview_id : 'store';
 
         axios.post("/api/link_preview/" + url, data).then(
           (response) => {
