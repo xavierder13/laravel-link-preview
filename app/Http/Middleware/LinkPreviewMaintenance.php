@@ -26,14 +26,14 @@ class LinkPreviewMaintenance
         }
 
         //Link Preview Create
-        if($request->is($api.'/store') || $request->is($api.'/store')){
+        if($request->is($api.'/create') || $request->is($api.'/store') || $request->is($api.'/img_upload')){
             if($user->can('link-preview-create')){
                 return $next($request); 
             }
         }
 
         //Link Preview Edit
-        if($request->is($api.'/edit/*') || $request->is($api.'/update/*')){
+        if($request->is($api.'/edit/*') || $request->is($api.'/update/*') || $request->is($api.'/img_delete')){
             if($user->can('link-preview-edit')){
                 return $next($request); 
             }
@@ -45,6 +45,7 @@ class LinkPreviewMaintenance
                 return $next($request); 
             }
         }
+        
 
         return abort(401, 'Unauthorized');
     }

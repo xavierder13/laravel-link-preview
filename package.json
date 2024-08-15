@@ -33,6 +33,7 @@
         "puppeteer": "^22.1.0",
         "socket.io": "^2.1.1",
         "sweetalert2": "^10.16.6",
+        "vue-advanced-cropper": "^1.11.7",
         "vue-router": "^3.5.1",
         "vue-socket.io": "^2.1.1",
         "vue-sweetalert2": "^4.3.1",

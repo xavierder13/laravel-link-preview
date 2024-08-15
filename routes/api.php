@@ -170,6 +170,14 @@ Route::group(['prefix' => 'link_preview', 'middleware' => ['auth:api', 'link_pre
         'uses' => $controller.'@delete',
         'as' => 'link_preview.delete',
     ]);
+    Route::post('/img_upload', [
+        'uses' => $controller.'@img_upload',
+        'as' => 'link_preview.img_upload',
+    ]);
+    Route::post('/img_delete', [
+        'uses' => $controller.'@img_delete',
+        'as' => 'link_preview.img_deletel',
+    ]);
 
 });
 
