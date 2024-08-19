@@ -34,7 +34,7 @@
             </v-card>              
           </v-col>
         </v-row>  
-        <v-row>
+        <v-row v-if="!cropImage">
           <v-col class="my-0 py-0">
             <v-file-input
               v-model="file"
@@ -58,7 +58,11 @@
       <v-divider class="mb-3 mt-0"></v-divider>
       <v-card-actions class="pa-0">
         <v-spacer></v-spacer>
-        <v-btn color="#E0E0E0" @click="closeDialog()" class="mb-3">
+        <v-btn 
+          color="#E0E0E0" 
+          @click="cropImage ? cropImage = false : closeDialog()" 
+          class="mb-3"
+        >
           Cancel
         </v-btn>
         <v-btn
@@ -274,8 +278,7 @@ export default {
   },
   computed: {
     formTitle() {
-      let title = 'Upload Image';
-      return title;
+      return this.cropImage ? 'Crop Image' : 'Upload Image';
     },
     fileIsRequired() {
       return this.action != 'crop_image'; // required only if action is upload image with file. note: crop_image will use the existing image
@@ -317,7 +320,7 @@ export default {
     },
     formHasError() {
       return this.$v.$error || this.widthInvalid || this.heightInvalid || this.fileInvalid;
-    }
+    },
     
   },
 
